@@ -364,6 +364,7 @@ bool LilyGo_AMOLED::initBUS()
 
 bool LilyGo_AMOLED::begin()
 {
+    /*
     //Try find 1.47 inch i2c devices
     Wire.begin(1, 2);
     Wire.beginTransmission(AXP2101_SLAVE_ADDRESS);
@@ -389,7 +390,7 @@ bool LilyGo_AMOLED::begin()
     Wire.end();
 
     delay(10);
-
+*/
     // Try find 2.41 inch i2c devices
     Wire.begin(6, 7);
     Wire.beginTransmission(SY6970_SLAVE_ADDRESS);
@@ -455,12 +456,13 @@ bool LilyGo_AMOLED::beginAMOLED_241()
 
     if (boards->pmu) {
         Wire.begin(boards->pmu->sda, boards->pmu->scl);
-        deviceScan(&Wire, &Serial);
+//        deviceScan(&Wire, &Serial);   // skip device scan, it slows up boot up by 4 seconds
         PowersSY6970::init(Wire, boards->pmu->sda, boards->pmu->scl, SY6970_SLAVE_ADDRESS);
         PowersSY6970::enableADCMeasure();
         PowersSY6970::disableOTG();
     }
 
+/*
     if (boards->touch) {
         // Try to find touch device
         Wire.beginTransmission(CST226SE_SLAVE_ADDRESS);
@@ -486,7 +488,7 @@ bool LilyGo_AMOLED::beginAMOLED_241()
             log_i("SD Card Size: %llu MB\n", SD.cardSize() / (1024 * 1024));
         }
     }
-
+*/
     setRotation(0);
 
     return true;
